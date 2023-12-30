@@ -10,11 +10,12 @@ import {
 } from 'react-native'
 import Feather from 'react-native-vector-icons/Feather'
 import axios from 'axios'
+import {OPENAI_API_KEY} from '@env'
 
 const Chat = () => {
   const [data, setData] = useState([])
   const [textInput, setTextInput] = useState('')
-  const apiKey = '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'
+  const apiKey = OPENAI_API_KEY
   const apiUrl =
     'https://api.openai.com/v1/engines/text-davinci-002/completions'
 
@@ -30,7 +31,7 @@ const Chat = () => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
         },
       },
     )
@@ -57,7 +58,14 @@ const Chat = () => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => (
             <View style={styles.chatQA}>
-              <Text style={{fontWeight: 'bold', fontSize: 20, color: item.type === 'user' ? 'blue' : 'red'}}>{item.type === 'user' ? 'You' : 'Bot' }</Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                  color: item.type === 'user' ? 'blue' : 'red',
+                }}>
+                {item.type === 'user' ? 'You' : 'Bot'}
+              </Text>
               <Text style={styles.chatA}>{item.text}</Text>
             </View>
           )}
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#080705'
+    backgroundColor: '#080705',
   },
   chatInput: {
     flex: 1,
